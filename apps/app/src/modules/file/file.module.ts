@@ -1,10 +1,13 @@
 import { Image, ImageSchema } from '@apps/file/src/schemas/image.schema';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import FileServiceProvider from '../../providers/file-service.provider';
 import { FileController } from './file.controller';
 
 @Module({
     imports: [
+        ConfigModule.forRoot(),
         MongooseModule.forFeature([
             {
                 name: Image.name,
@@ -12,6 +15,8 @@ import { FileController } from './file.controller';
             }
         ]),
     ],
+    providers: [FileServiceProvider],
     controllers: [FileController],
+    exports: ['FILE_SERVICE_CLIENT']
 })
 export class FileModule { }

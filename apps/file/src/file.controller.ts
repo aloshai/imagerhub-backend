@@ -3,7 +3,7 @@ import { Controller, Inject, Logger } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import { createWriteStream } from 'fs';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Readable, Writable } from 'stream';
 import { Image, ImageDocument } from './schemas/image.schema';
 import * as FfmpegCommand from 'fluent-ffmpeg';
@@ -35,7 +35,8 @@ export class FileController {
       }
     });
 
-    const fileName = crypto.randomBytes(32).toString("hex") + ".jpg";
+    const objectId = new Types.ObjectId();
+    const fileName = objectId.toString() + ".jpg";
     const filePath = this.diskService.createFileInStorage(fileName);
 
     return new Promise((resolve, reject) => {
@@ -50,6 +51,7 @@ export class FileController {
         })
         .on('end', async () => {
           let model = await this.imageModel.create({
+            _id: objectId,
             fileName: fileName,
             contentType: "image/jpeg"
           });

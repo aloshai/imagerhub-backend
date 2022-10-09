@@ -11,7 +11,7 @@ import { parse } from 'path';
 
 @Controller('file')
 export class FileController {
-    constructor(@Inject('FILE_SERVICE') private fileService: ClientProxy, @InjectModel(Image.name) private imageModel: Model<ImageDocument>) { }
+    constructor(@Inject('FILE_SERVICE_CLIENT') private fileService: ClientProxy, @InjectModel(Image.name) private imageModel: Model<ImageDocument>) { }
 
     @Get(":id")
     async getFile(@Param('id') id: string, @Res() response: Response) {
