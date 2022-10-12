@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  app:
+    container_name: imagerhub-app
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/app/Dockerfile
+    hostname: app
+    env_file:
+      - .env
+  file:
+    container_name: imagerhub-file-service
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/file/Dockerfile
+    hostname: file
+    env_file:
+      - .env
