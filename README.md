@@ -20,6 +20,8 @@ ImagerHub is an app that lets you upload images, create collections, and make co
     - [ ] Multi-format support (now only converts to .jpg there is no supporting .gif, png, mjpeg, etc.)
   - [ ] AI (ready dataset will be used)
     - [ ] Image analysis
+    - [ ] Research (https://github.com/aloshai/imagerhub-backend/issues/1)
+    - [ ] Integration (https://github.com/aloshai/imagerhub-backend/issues/2)
   
 ## Benchmark
 Environment: i5-6402P (4 CPUs), GTX 950, 16GB DDR4 RAM
