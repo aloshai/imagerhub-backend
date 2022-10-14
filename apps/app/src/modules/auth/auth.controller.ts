@@ -23,7 +23,6 @@ export class AuthController {
     @Get("google/callback")
     @UseGuards(GoogleOAuth2Guard)
     async googleLogin(@Request() req) {
-        console.log(req.user);
         return this.authService.login(req.user);
     }
 

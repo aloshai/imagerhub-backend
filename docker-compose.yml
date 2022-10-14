@@ -8,8 +8,14 @@ services:
       context: .
       dockerfile: ./apps/app/Dockerfile
     hostname: app
+    ports:
+      - ${APP_PORT}:3000
     env_file:
       - .env
+    networks:
+      - backend
+    links:
+      - db
   file:
     container_name: imagerhub-file-service
     restart: always
@@ -19,3 +25,21 @@ services:
     hostname: file
     env_file:
       - .env
+    networks:
+      - backend
+    links:
+      - db
+  db:
+    image: mongo
+    container_name: imagerhub-db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - backend
+    ports:
+      - 27017:27017
+networks:
+  backend:
+    driver: bridge

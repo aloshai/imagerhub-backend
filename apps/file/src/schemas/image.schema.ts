@@ -7,9 +7,6 @@ export type ImageDocument = Image & Document;
 export class Image {
   @Prop({ required: true })
   fileName: string;
-  
-  @Prop({ type: String, required: true })
-  contentType: string;
 }
 
 export const ImageSchema = SchemaFactory.createForClass(Image);
