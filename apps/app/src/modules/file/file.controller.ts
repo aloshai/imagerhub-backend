@@ -7,7 +7,6 @@ import { isValidObjectId, Model } from 'mongoose';
 import { Response } from 'express';
 import { Image, ImageDocument } from '@apps/file/src/schemas/image.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { parse } from 'path';
 
 @Controller('file')
 export class FileController {
@@ -24,13 +23,11 @@ export class FileController {
             throw new NotFoundException();
         }
 
-        const filePath = await firstValueFrom(this.fileService.send('get', image.fileName));
-        if (filePath == null) {
-            throw new NotFoundException();
-        }
+        response.set('Content-Type', image.contentType);
+        response.set('Content-Length', image.size.toString());
+        response.set('Content-Disposition', `inline; filename="${image._id}"`);
 
-        const _path = parse(filePath);
-        response.sendFile(_path.base, { root: _path.dir });
+        response.redirect(image.uri);
     }
 
     @Post()

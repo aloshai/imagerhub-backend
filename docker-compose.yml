@@ -9,7 +9,7 @@ services:
       dockerfile: ./apps/app/Dockerfile
     hostname: app
     ports:
-      - ${APP_PORT}:3000
+      - ${PORT}:3000
     env_file:
       - .env
     networks:
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/file/Dockerfile
-    hostname: file
+    hostname: file-service
     env_file:
       - .env
     networks:
@@ -39,7 +39,7 @@ services:
     networks:
       - backend
     ports:
-      - 27017:27017
+      - 27015:27015
 networks:
   backend:
     driver: bridge

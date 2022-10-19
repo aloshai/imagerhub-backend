@@ -8,7 +8,7 @@ import { Readable, Writable } from 'stream';
 import { Image, ImageDocument } from './schemas/image.schema';
 import * as FfmpegCommand from 'fluent-ffmpeg';
 import * as crypto from "crypto";
-import { S3Client } from "@aws-sdk/client-s3";
+import { CompleteMultipartUploadCommandOutput, S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { ConfigService } from '@nestjs/config';
 
@@ -36,6 +36,9 @@ export class FileController {
     });
   }
 
+  /**
+   * @deprecated
+   */
   @MessagePattern("get")
   async getFile(fileName: string) {
     return this.diskService.getFile(fileName);
@@ -92,13 +95,18 @@ export class FileController {
             }
           });
 
-          await upload.done().then((_) => {
-            const image = this.imageModel.create({
+          await upload.done().then(async (value: CompleteMultipartUploadCommandOutput) => {
+            const image = await this.imageModel.create({
               _id: objectId,
-              fileName: fileName, // TODO: need a user id
+              uri: value.Location, // TODO: need a user id
+              key: value.Key,
+              bucket: value.Bucket,
+              contentType: "image/jpeg",
+              size: outputBuffer.length,
+              fileName,
             });
 
-            resolve(image);
+            resolve(image.toJSON());
           }).catch((err) => {
             this.logger.error(err);
             reject(err);
@@ -148,7 +156,7 @@ export class FileController {
         .on('end', async () => {
           let model = await this.imageModel.create({
             _id: objectId,
-            fileName: fileName,
+            uri: fileName,
             contentType: "image/jpeg"
           });
 
@@ -196,7 +204,7 @@ export class FileController {
         let stream = createWriteStream(filePath);
         stream.on("finish", async () => {
           await this.imageModel.create({
-            fileName: fileName,
+            uri: fileName,
             contentType: "image/jpeg"
           });
 
