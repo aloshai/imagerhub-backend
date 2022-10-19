@@ -1,11 +1,11 @@
 import { Controller, Logger } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { Types } from 'mongoose';
-import { Readable, Writable } from 'stream';
-import * as FfmpegCommand from 'fluent-ffmpeg';
+import { ConfigService } from '@nestjs/config';
 import { CompleteMultipartUploadCommandOutput, S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
-import { ConfigService } from '@nestjs/config';
+import * as FfmpegCommand from 'fluent-ffmpeg';
+import { Readable, Writable } from 'stream';
+import { Types } from 'mongoose';
 
 const Command = FfmpegCommand()
   .addOption("-qscale:v 5")
@@ -88,7 +88,6 @@ export class FileController {
               bucket: value.Bucket,
               contentType: "image/jpeg",
               size: outputBuffer.length,
-              fileName,
             };
 
             resolve(image);
