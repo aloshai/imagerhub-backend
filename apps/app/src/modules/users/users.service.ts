@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as crypto from 'crypto';
-import { Provider } from '../../enums/provider.enum';
-import { User, UserDocument } from '../../schemas/user.schema';
+import { Provider } from '@apps/app/enums/provider.enum';
+import { User, UserDocument } from '@apps/app/schemas/user.schema';
 
 @Injectable()
 export class UsersService {

@@ -26,15 +26,6 @@
       "compilerOptions": {
         "tsConfigPath": "apps/file/tsconfig.app.json"
       }
-    },
-    "disk": {
-      "type": "library",
-      "root": "libs/disk",
-      "entryFile": "index",
-      "sourceRoot": "libs/disk/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/disk/tsconfig.lib.json"
-      }
     }
   }
 }

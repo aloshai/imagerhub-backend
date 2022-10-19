@@ -5,7 +5,7 @@ import { memoryStorage } from 'multer';
 import { firstValueFrom } from 'rxjs';
 import { isValidObjectId, Model } from 'mongoose';
 import { Response } from 'express';
-import { Image, ImageDocument } from '@apps/file/src/schemas/image.schema';
+import { Image, ImageDocument } from '@apps/app/schemas/image.schema';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Controller('file')
@@ -40,6 +40,8 @@ export class FileController {
             new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 16 }),
         ]
     })) file: Express.Multer.File) {
-        return await firstValueFrom(this.fileService.send('upload', file.buffer));
+        const image = await firstValueFrom(this.fileService.send('upload', file.buffer));
+
+        return this.imageModel.create(image);
     }
 }

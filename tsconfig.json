@@ -18,14 +18,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@apps/*": [
-        "apps/*"
+      "@apps/app/*": [
+        "apps/app/src/*"
       ],
-      "@libs/disk": [
-        "libs/disk/src"
-      ],
-      "@libs/disk/*": [
-        "libs/disk/src/*"
+      "@apps/file/*": [
+        "apps/file/src/*"
       ]
     }
   }
