@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, MaxFileSizeValidator, NotFoundException, Param, ParseFilePipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Inject, MaxFileSizeValidator, NotFoundException, Param, ParseFilePipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
@@ -15,7 +15,7 @@ export class FileController {
     @Get(":id")
     async getFile(@Param('id') id: string, @Res() response: Response) {
         if (!isValidObjectId(id)) {
-            throw new NotFoundException();
+            throw new BadRequestException();
         }
 
         const image = await this.imageModel.findById(id);
@@ -32,7 +32,7 @@ export class FileController {
 
     @Post()
     @UseInterceptors(FileInterceptor('file', {
-        storage: memoryStorage()
+        storage: memoryStorage() // TODO: need a disk because of the size (32-64MB+)
     }))
     async uploadFile(@UploadedFile(new ParseFilePipe({
         fileIsRequired: true,
