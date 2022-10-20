@@ -15,5 +15,5 @@ export default () => ({
   fileService: {
     host: process.env.FILE_SERVICE_HOST,
     port: process.env.FILE_SERVICE_PORT,
-  }
+  },
 });

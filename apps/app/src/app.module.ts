@@ -10,7 +10,7 @@ import Configuration from './config/configuration';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [Configuration]
+      load: [Configuration],
     }),
     MongooseModule.forRoot(process.env.MONGO_DSN),
     FileModule,
@@ -18,4 +18,4 @@ import Configuration from './config/configuration';
     UsersModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

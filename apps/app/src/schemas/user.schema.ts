@@ -4,14 +4,14 @@ import { Provider } from '@apps/app/enums/provider.enum';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true})
+@Schema({ timestamps: true })
 export class User {
   @Prop({ required: true, unique: true })
   username: string;
 
   @Prop({ required: true, type: String, unique: true })
   email: string;
-  
+
   @Prop({ required: true, type: String })
   password: string;
 

@@ -6,17 +6,17 @@ import FileServiceProvider from '../../providers/file-service.provider';
 import { FileController } from './file.controller';
 
 @Module({
-    imports: [
-        ConfigModule.forRoot(),
-        MongooseModule.forFeature([
-            {
-                name: Image.name,
-                schema: ImageSchema
-            }
-        ]),
-    ],
-    providers: [FileServiceProvider],
-    controllers: [FileController],
-    exports: ['FILE_SERVICE_CLIENT']
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forFeature([
+      {
+        name: Image.name,
+        schema: ImageSchema,
+      },
+    ]),
+  ],
+  providers: [FileServiceProvider],
+  controllers: [FileController],
+  exports: ['FILE_SERVICE_CLIENT'],
 })
-export class FileModule { }
+export class FileModule {}
