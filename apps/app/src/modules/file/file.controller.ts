@@ -1,8 +1,10 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   Inject,
+  InternalServerErrorException,
   MaxFileSizeValidator,
   NotFoundException,
   Param,
@@ -20,13 +22,16 @@ import { isValidObjectId, Model } from 'mongoose';
 import { Response } from 'express';
 import { Image, ImageDocument } from '@libs/common/schemas/image.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { IServiceFileUploadResponse } from '@libs/common/interfaces/file/service-file-upload-response.interface';
+import { CreateImageDto } from '@libs/common/dto/create-image.dto';
+import { IServiceFileUploadRequest } from '@libs/common/interfaces/file/service-file-upload-request.interface';
 
 @Controller('file')
 export class FileController {
   constructor(
     @Inject('FILE_SERVICE_CLIENT') private fileService: ClientProxy,
     @InjectModel(Image.name) private imageModel: Model<ImageDocument>,
-  ) {}
+  ) { }
 
   @Get(':id')
   async getFile(@Param('id') id: string, @Res() response: Response) {
@@ -60,11 +65,24 @@ export class FileController {
       }),
     )
     file: Express.Multer.File,
+    @Body() createImageDto: CreateImageDto
   ) {
-    const image = await firstValueFrom(
-      this.fileService.send('upload', file.buffer),
-    );
+    try {
+      const image: IServiceFileUploadResponse = await firstValueFrom(
+        this.fileService.send('upload', {
+          buffer: file.buffer.toJSON(),
+          name: createImageDto.name,
+          alt: createImageDto.alt
+        } as IServiceFileUploadRequest),
+      );
 
-    return this.imageModel.create(image);
+      return this.imageModel.create(image);
+    } catch (err) {
+      if (err.code === 'ECONNREFUSED') {
+        throw new InternalServerErrorException("File service is unavailable");
+      } else {
+        throw new InternalServerErrorException(err);
+      }
+    }
   }
 }

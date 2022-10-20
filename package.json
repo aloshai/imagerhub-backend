@@ -23,6 +23,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.188.0",
     "@aws-sdk/lib-storage": "^3.192.0",
+    "@aws-sdk/util-endpoints": "^3.192.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
@@ -31,6 +32,8 @@
     "@nestjs/mongoose": "^9.2.0",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^6.6.5",
     "passport": "^0.6.0",

@@ -9,6 +9,7 @@ import { Upload } from '@aws-sdk/lib-storage';
 import * as FfmpegCommand from 'fluent-ffmpeg';
 import { Readable, Writable } from 'stream';
 import { Types } from 'mongoose';
+import { IServiceFileUploadRequest } from '@libs/common/interfaces/file/service-file-upload-request.interface';
 
 const Command = FfmpegCommand()
   .addOption('-qscale:v 5')
@@ -31,8 +32,8 @@ export class FileController {
   }
 
   @MessagePattern('upload')
-  async uploadFile(buffer: { type: 'Buffer'; data: any /* is Uint8Array */ }) {
-    const inputBuffer = Buffer.from(buffer.data, 'hex');
+  async uploadFile(params: IServiceFileUploadRequest) {
+    const inputBuffer = Buffer.from(params.buffer.data, 'hex');
     const inputReadStream = new Readable({
       objectMode: true,
       encoding: 'hex',
@@ -91,6 +92,8 @@ export class FileController {
                 bucket: value.Bucket,
                 contentType: 'image/jpeg',
                 size: outputBuffer.length,
+                name: params.name,
+                alt: params.alt,
               };
 
               resolve(image);
