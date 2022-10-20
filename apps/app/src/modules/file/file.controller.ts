@@ -54,7 +54,14 @@ export class FileController {
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: memoryStorage(), // TODO: need a disk because of the size (32-64MB+)
+      storage: memoryStorage(),
+      fileFilter(_, file, callback) {
+        if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/))) {
+          callback(new BadRequestException('Unsupported file type'), false);
+        }
+
+        callback(null, true);
+      },
     }),
   )
   async uploadFile(

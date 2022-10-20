@@ -58,7 +58,8 @@ export class FileController {
       Command.clone()
         .input(inputReadStream)
         .on('error', (err) => {
-          this.logger.error('An error occurred: ' + err.message);
+          this.logger.error("FFMPEG Error", err);
+          reject(err);
         })
         .on('end', async () => {
           const outputReadStream = new Readable({
@@ -99,7 +100,7 @@ export class FileController {
               resolve(image);
             })
             .catch((err) => {
-              this.logger.error(err);
+              this.logger.error("Upload Error", err);
               reject(err);
             });
         })
