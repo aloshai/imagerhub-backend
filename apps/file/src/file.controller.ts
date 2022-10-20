@@ -60,7 +60,7 @@ export class FileController {
           this.logger.error('An error occurred: ' + err.message);
         })
         .on('end', async () => {
-          let outputReadStream = new Readable({
+          const outputReadStream = new Readable({
             objectMode: true,
             encoding: 'hex',
             read() {
