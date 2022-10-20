@@ -23,7 +23,10 @@
       ],
       "@apps/file/*": [
         "apps/file/src/*"
-      ]
+      ],
+      "@libs/common/*": [
+        "libs/common/src/*"
+      ],
     }
   }
 }

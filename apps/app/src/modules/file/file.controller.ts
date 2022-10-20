@@ -18,7 +18,7 @@ import { memoryStorage } from 'multer';
 import { firstValueFrom } from 'rxjs';
 import { isValidObjectId, Model } from 'mongoose';
 import { Response } from 'express';
-import { Image, ImageDocument } from '@apps/app/schemas/image.schema';
+import { Image, ImageDocument } from '@libs/common/schemas/image.schema';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Controller('file')

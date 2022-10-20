@@ -1,4 +1,4 @@
-import { Image, ImageSchema } from '@apps/app/schemas/image.schema';
+import { Image, ImageSchema } from '@libs/common/schemas/image.schema';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
